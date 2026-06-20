@@ -1,9 +1,3 @@
-import random
-import json
-import datetime
-
-
-
 #==============File  Save and Load ======================
 # now lets work on file handling for this json
 def saveData(filename,data):
@@ -19,11 +13,6 @@ def loadData(filename):
     except FileNotFoundError:
         return {}
         
-
-# =======================ADD book Function =====================
-# first lets create every function separtely then combine
-# add book to the libarary
-# we will store the books in json file
 
 def addbook(publishers,books):
     newbook = []
@@ -75,13 +64,6 @@ def addbook(publishers,books):
 
     return "Books Successfully added to libarary"
 
-    
-
-
-# ============we have to create sign up and login () function
-
-# we have to create a file in which login details will be stored and in form of json
-
 def registerAccount(accounts):
     name = input("Name : ")
     email = input("Email Address : ")
@@ -90,11 +72,11 @@ def registerAccount(accounts):
     assert len(pin) == 4
     
     try:
-        m = max(accounts.keys())
+        m = len(accounts.keys())
     except ValueError:
         m = 100
-
     accounts[m+1] = [name,email,address,pin]
+
 
 #===============Search Book Function===================
 def searchBook(books):
@@ -123,12 +105,13 @@ def verifyBorrower(borrowerName,PIN,accounts):
         return "User Not Found"
     else:
         return UsrDetails
-
+    
 
 # =======================Borrow Book ==========================
 def borrowBook(borrowedbooks ,accounts,books):
     # yahan par verfication system lagani hai
     book = searchBook(books)
+    print("I here")
     if book != "Book not found":
         print(f"{book}")
         print("\n")
@@ -137,17 +120,25 @@ def borrowBook(borrowedbooks ,accounts,books):
         borrowerName = input("Enter your username : ")
         borrowerPin = input("Enter account PIN : ")
 
+        print("here 2")
         try:
             BID = len(borrowedbooks.keys())
+            print("here 3")
         except ValueError:
             BID = 0
+            print("here 3.5")
             
         if ans.lower not in  ["not","NOT","N","n"] :
+            print("here 4")
             borrowDate = datetime.datetime.now()
+            print("here 5")
             User = verifyBorrower(borrowerName,borrowerPin,accounts)
+
+            print('here 6')
             print(User)
             
             if User != "User Not Found":
+                print("here 7")
                 Book_Borrowed = {
                     "Book" : book,
                     "BorrowDate": str(borrowDate),
@@ -156,8 +147,8 @@ def borrowBook(borrowedbooks ,accounts,books):
                 borrowedbooks[BID+1] = Book_Borrowed
                 print("Book Borrowed Successfully")          
     else:
+        print("here 8")
         return f"{book}"
-
 
 
 books = dict(loadData("books"))
@@ -180,11 +171,11 @@ if __name__ == "__main__":
         if choice == 1:
             registerAccount(accountsDetails)
         elif choice == 2:
-            addbook(publishers=publishers,books=books)
+            addbook(publishers,books)
         elif choice == 3:
             searchBook(books)
         elif choice == 4:
-            borrowBook(borrowedbooks,accountsDetails,books)
+            borrowBook(borrowedbooks)
         elif choice == 5:
             saveData("books",books)
             saveData("accountsDetails",accountsDetails)
